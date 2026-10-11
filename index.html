@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>景菲的英语乐园 🌈</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Comic Sans MS",sans-serif;
+ background:linear-gradient(160deg,#ffe3f1 0%,#fff6d6 45%,#d9f4ff 100%);min-height:100vh;color:#5a3d5c;
+ -webkit-user-select:none;user-select:none}
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:rgba(255,255,255,.75);
+ box-shadow:0 3px 10px rgba(255,120,170,.2);position:sticky;top:0;z-index:5}
+header h1{font-size:22px;margin:0;color:#ff5fa2}
+.stars{font-size:22px;font-weight:bold;color:#f5a300;background:#fff7d1;border-radius:20px;padding:6px 14px}
+main{max-width:900px;margin:0 auto;padding:16px}
+.hidden{display:none!important}
+h2{text-align:center;color:#ff6fa8;margin:10px 0 6px;font-size:26px}
+.tip{text-align:center;font-size:18px;margin:4px 0 16px;color:#7a5a7c}
+.grid{display:grid;gap:14px}
+.units{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.games{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card-btn{border:none;border-radius:24px;padding:18px;font-size:20px;font-family:inherit;color:#5a3d5c;cursor:pointer;
+ box-shadow:0 6px 0 rgba(0,0,0,.08),0 8px 18px rgba(0,0,0,.08);transition:transform .1s;text-align:center;min-height:110px}
+.card-btn:active{transform:scale(.96)}
+.card-btn .big{font-size:44px;display:block;margin-bottom:6px}
+.card-btn small{display:block;font-size:15px;opacity:.75;margin-top:4px}
+.c0{background:#ffd6e7}.c1{background:#ffe9b8}.c2{background:#d4f5d0}.c3{background:#d6ecff}.c4{background:#ead9ff}.c5{background:#ffdcc8}
+.btn{border:none;border-radius:999px;padding:12px 24px;font-size:20px;font-family:inherit;cursor:pointer;background:#ff8fbf;color:#fff;
+ box-shadow:0 4px 0 #e0679c;margin:6px}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #e0679c}
+.btn.gray{background:#b9a9c9;box-shadow:0 4px 0 #9584a6}
+.btn.blue{background:#5fb8ff;box-shadow:0 4px 0 #3d93d8}
+.btn.green{background:#5fd18a;box-shadow:0 4px 0 #3eaa69}
+.bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.progress{font-size:18px;color:#8a6a8c}
+.panel{background:rgba(255,255,255,.85);border-radius:28px;padding:20px;box-shadow:0 8px 24px rgba(255,120,170,.15);text-align:center}
+.speaker{font-size:56px;width:120px;height:120px;border-radius:50%;border:none;background:#fff1a8;box-shadow:0 6px 0 #f0cf4a;cursor:pointer;margin:6px auto 14px;display:block}
+.speaker:active{transform:translateY(4px);box-shadow:0 2px 0 #f0cf4a}
+.options{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:520px;margin:0 auto}
+.opt{border:4px solid transparent;border-radius:24px;background:#fff;font-size:70px;min-height:140px;cursor:pointer;
+ box-shadow:0 5px 0 #f1d3e2;font-family:inherit;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.opt .lbl{font-size:18px;color:#7a5a7c;margin-top:4px}
+.opt.right{border-color:#5fd18a;background:#e9ffef}
+.opt.wrong{border-color:#ffb3b3;background:#fff3f3;opacity:.7}
+.swatch{width:84px;height:84px;border-radius:50%;border:3px solid #ddd;display:inline-block}
+.numpic{font-size:72px;font-weight:bold;color:#ff7aa8;font-family:"Arial Rounded MT Bold",Arial,sans-serif}
+.feedback{min-height:44px;font-size:24px;margin:14px 0 4px;font-weight:bold}
+.good{color:#2fae63}.soft{color:#e0844a}
+.memory{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:640px;margin:0 auto}
+.mcard{aspect-ratio:1/1;border-radius:18px;border:none;cursor:pointer;font-family:inherit;position:relative;background:transparent;padding:0;perspective:600px}
+.mcard .inner{position:absolute;inset:0;transition:transform .4s;transform-style:preserve-3d;-webkit-transform-style:preserve-3d}
+.mcard.flip .inner,.mcard.done .inner{transform:rotateY(180deg)}
+.mcard .face{position:absolute;inset:0;border-radius:18px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 4px 0 rgba(0,0,0,.08)}
+.mcard .front{background:linear-gradient(135deg,#ff9cc8,#ffcf6f);font-size:36px;color:#fff}
+.mcard .back{background:#fff;transform:rotateY(180deg);font-size:44px;flex-direction:column;padding:4px}
+.mcard .back .w{font-size:clamp(14px,3.6vw,24px);font-weight:bold;color:#5a3d5c;word-break:break-word}
+.mcard.done .back{background:#e9ffef}
+.mcard .swatch{width:52%;height:52%}
+.mcard .numpic{font-size:48px}
+.slots{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:10px 0 16px;min-height:70px}
+.slot{width:56px;height:64px;border-radius:14px;border:3px dashed #ffb3d1;background:#fff;font-size:34px;display:flex;align-items:center;justify-content:center;font-weight:bold;cursor:pointer;color:#5a3d5c}
+.slot.filled{border-style:solid;border-color:#ff8fbf;background:#fff0f7}
+.tiles{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.tile{min-width:58px;height:64px;padding:0 12px;border-radius:16px;border:none;background:#ffe9b8;box-shadow:0 5px 0 #f0c869;font-size:32px;font-weight:bold;cursor:pointer;font-family:inherit;color:#5a3d5c}
+.tile:active{transform:translateY(3px);box-shadow:0 2px 0 #f0c869}
+.tile.used{visibility:hidden}
+.tile.word{font-size:24px;background:#d6ecff;box-shadow:0 5px 0 #9fcaf0}
+.slots.sentence{min-height:80px;background:#fff;border-radius:18px;padding:10px;border:3px dashed #9fcaf0;align-items:center}
+.slots.sentence .tile{background:#eaf5ff}
+.pic{font-size:90px;line-height:1.1}
+.cn{font-size:22px;color:#7a5a7c;margin:4px 0}
+.celebrate{font-size:64px;animation:pop .6s ease}
+@keyframes pop{0%{transform:scale(.3)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.shake{animation:shake .3s}
+.star-fly{position:fixed;font-size:40px;pointer-events:none;z-index:50;animation:fly 1s ease-out forwards}
+@keyframes fly{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-140px) scale(1.6)}}
+.wordlist{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:14px}
+.chip{background:#fff;border-radius:16px;padding:8px 12px;font-size:18px;box-shadow:0 3px 0 #f1d3e2;cursor:pointer;border:none;font-family:inherit;color:#5a3d5c}
+footer{text-align:center;font-size:13px;color:#a08aa2;padding:16px}
+@media (max-width:520px){.opt{font-size:54px;min-height:110px}.memory{grid-template-columns:repeat(3,1fr)}header h1{font-size:18px}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🌈 景菲的英语乐园</h1>
+  <div class="stars" id="starBox">⭐ <span id="starCount">0</span></div>
+</header>
+<main>
+  <!-- 选单元 -->
+  <section id="unitScreen">
+    <h2>你好，景菲！👋</h2>
+    <p class="tip">人教版 PEP 三年级上册 · 先选一个单元吧</p>
+    <div class="grid units" id="unitGrid"></div>
+  </section>
+
+  <!-- 选游戏 -->
+  <section id="gameScreen" class="hidden">
+    <div class="bar"><button class="btn gray" id="backUnits">⬅ 换单元</button><span class="progress" id="unitTitle"></span></div>
+    <h2>选一个游戏来玩 🎮</h2>
+    <div class="grid games">
+      <button class="card-btn c0" data-game="listen"><span class="big">🔊</span>听音选图<small>听一听，点出对的图片</small></button>
+      <button class="card-btn c1" data-game="memory"><span class="big">🃏</span>翻翻乐<small>把图片和单词配成对</small></button>
+      <button class="card-btn c2" data-game="spell"><span class="big">🔤</span>拼单词<small>用字母块拼出单词</small></button>
+      <button class="card-btn c3" data-game="sentence"><span class="big">🧩</span>句子排排队<small>把单词排成一句话</small></button>
+    </div>
+    <div class="panel" style="margin-top:18px">
+      <div style="font-size:18px">📖 本单元单词（点一点听发音）</div>
+      <div class="wordlist" id="wordList"></div>
+    </div>
+  </section>
+
+  <!-- 游戏区 -->
+  <section id="playScreen" class="hidden">
+    <div class="bar"><button class="btn gray" id="backGames">⬅ 返回</button><span class="progress" id="progress"></span></div>
+    <div class="panel" id="playArea"></div>
+  </section>
+</main>
+<footer>单词依据人教版 PEP 三年级上册（2024 新版）· 发音使用设备自带的英语朗读</footer>
+
+<script>
+// ===== 课程数据 =====
+// pic: emoji；color: 颜色色块；num: 数字
+var UNITS = [
+ {id:1, en:"Making friends", cn:"交朋友", icon:"🤝",
+  words:[
+   {w:"friend",cn:"朋友",pic:"🧑‍🤝‍🧑"},{w:"hand",cn:"手",pic:"✋"},{w:"ear",cn:"耳朵",pic:"👂"},
+   {w:"eye",cn:"眼睛",pic:"👁️"},{w:"mouth",cn:"嘴",pic:"👄"},{w:"arm",cn:"胳膊",pic:"💪"},
+   {w:"smile",cn:"微笑",pic:"😊"},{w:"listen",cn:"倾听",pic:"🎧"},{w:"share",cn:"分享",pic:"🍪"},
+   {w:"help",cn:"帮助",pic:"🤝"},{w:"toy",cn:"玩具",pic:"🧸"},{w:"goodbye",cn:"再见",pic:"👋"},
+   {w:"good",cn:"好的",pic:"👍"},{w:"name",cn:"名字",pic:"📛"}],
+  sentences:[
+   {en:"Hello! I'm Mike.",cn:"你好！我是迈克。"},
+   {en:"My name is Wu Binbin.",cn:"我叫吴斌斌。"},
+   {en:"Nice to meet you.",cn:"见到你很高兴。"},
+   {en:"We can share.",cn:"我们可以分享。"},
+   {en:"I listen with care.",cn:"我认真倾听。"},
+   {en:"I am nice to my friends.",cn:"我对我的朋友们很好。"}]},
+ {id:2, en:"Different families", cn:"不同的家庭", icon:"👨‍👩‍👧",
+  words:[
+   {w:"family",cn:"家庭",pic:"👨‍👩‍👧‍👦"},{w:"mum",cn:"妈妈",pic:"👩"},{w:"dad",cn:"爸爸",pic:"👨"},
+   {w:"grandma",cn:"奶奶；姥姥",pic:"👵"},{w:"grandpa",cn:"爷爷；姥爷",pic:"👴"},
+   {w:"sister",cn:"姐姐；妹妹",pic:"👧"},{w:"brother",cn:"哥哥；弟弟",pic:"👦"},
+   {w:"baby",cn:"婴儿",pic:"👶"},{w:"uncle",cn:"叔叔；舅舅",pic:"🧔"},{w:"aunt",cn:"阿姨；姑姑",pic:"👩‍🦰"},
+   {w:"cousin",cn:"堂(表)兄弟姐妹",pic:"🧒"},{w:"big",cn:"大的",pic:"🐘"},{w:"small",cn:"小的",pic:"🐜"}],
+  sentences:[
+   {en:"This is my family.",cn:"这是我的家庭。"},
+   {en:"This is my grandma.",cn:"这是我的奶奶。"},
+   {en:"Is this your sister?",cn:"这是你的妹妹吗？"},
+   {en:"No, it's my cousin.",cn:"不，是我的表妹。"},
+   {en:"Is that your brother?",cn:"那是你的弟弟吗？"},
+   {en:"Yes, it is.",cn:"是的。"}]},
+ {id:3, en:"Amazing animals", cn:"神奇的动物", icon:"🐼",
+  words:[
+   {w:"dog",cn:"狗",pic:"🐶"},{w:"cat",cn:"猫",pic:"🐱"},{w:"fish",cn:"鱼",pic:"🐟"},
+   {w:"bird",cn:"鸟",pic:"🐦"},{w:"rabbit",cn:"兔子",pic:"🐰"},{w:"fox",cn:"狐狸",pic:"🦊"},
+   {w:"panda",cn:"大熊猫",pic:"🐼"},{w:"monkey",cn:"猴子",pic:"🐵"},{w:"tiger",cn:"老虎",pic:"🐯"},
+   {w:"elephant",cn:"大象",pic:"🐘"},{w:"lion",cn:"狮子",pic:"🦁"},{w:"giraffe",cn:"长颈鹿",pic:"🦒"}],
+  sentences:[
+   {en:"I like dogs.",cn:"我喜欢狗。"},
+   {en:"Can I go to the zoo?",cn:"我可以去动物园吗？"},
+   {en:"The panda is cute.",cn:"大熊猫很可爱。"},
+   {en:"The giraffe is tall.",cn:"长颈鹿很高。"},
+   {en:"What's this? It's a fox.",cn:"这是什么？是一只狐狸。"}]},
+ {id:4, en:"Plants around us", cn:"身边的植物", icon:"🌳",
+  words:[
+   {w:"apple",cn:"苹果",pic:"🍎"},{w:"banana",cn:"香蕉",pic:"🍌"},{w:"orange",cn:"橙子",pic:"🍊"},
+   {w:"grape",cn:"葡萄",pic:"🍇"},{w:"tree",cn:"树",pic:"🌳"},{w:"flower",cn:"花",pic:"🌸"},
+   {w:"grass",cn:"草",pic:"🌱"},{w:"farm",cn:"农场",pic:"🚜"},{w:"water",cn:"水",pic:"💧"},
+   {w:"sun",cn:"太阳",pic:"☀️"},{w:"air",cn:"空气",pic:"🌬️"},{w:"school",cn:"学校",pic:"🏫"}],
+  sentences:[
+   {en:"Do you like apples?",cn:"你喜欢苹果吗？"},
+   {en:"Yes, I do.",cn:"是的，我喜欢。"},
+   {en:"I like fresh air.",cn:"我喜欢新鲜的空气。"},
+   {en:"We can plant new trees.",cn:"我们可以种新的树。"},
+   {en:"Plants need water.",cn:"植物需要水。"}]},
+ {id:5, en:"The colourful world", cn:"多彩的世界", icon:"🎨",
+  words:[
+   {w:"red",cn:"红色",color:"#ff4d4d"},{w:"blue",cn:"蓝色",color:"#3d8bff"},{w:"green",cn:"绿色",color:"#36c26b"},
+   {w:"yellow",cn:"黄色",color:"#ffd92e"},{w:"orange",cn:"橙色",color:"#ff9a2e"},{w:"purple",cn:"紫色",color:"#9b5de5"},
+   {w:"pink",cn:"粉色",color:"#ff9ccf"},{w:"brown",cn:"棕色",color:"#9a6232"},{w:"black",cn:"黑色",color:"#222222"},
+   {w:"white",cn:"白色",color:"#ffffff"},{w:"bear",cn:"熊",pic:"🐻"},{w:"duck",cn:"鸭子",pic:"🦆"},{w:"sea",cn:"大海",pic:"🌊"}],
+  sentences:[
+   {en:"What colour is it?",cn:"它是什么颜色？"},
+   {en:"It's blue.",cn:"它是蓝色的。"},
+   {en:"What colours do you like?",cn:"你喜欢什么颜色？"},
+   {en:"I like red and yellow.",cn:"我喜欢红色和黄色。"},
+   {en:"Red and blue make purple.",cn:"红色和蓝色变成紫色。"},
+   {en:"Let's draw some flowers.",cn:"我们来画一些花吧。"}]},
+ {id:6, en:"Useful numbers", cn:"有用的数字", icon:"🔢",
+  words:[
+   {w:"one",cn:"一",num:"1"},{w:"two",cn:"二",num:"2"},{w:"three",cn:"三",num:"3"},{w:"four",cn:"四",num:"4"},
+   {w:"five",cn:"五",num:"5"},{w:"six",cn:"六",num:"6"},{w:"seven",cn:"七",num:"7"},{w:"eight",cn:"八",num:"8"},
+   {w:"nine",cn:"九",num:"9"},{w:"ten",cn:"十",num:"10"},{w:"cake",cn:"蛋糕",pic:"🎂"}],
+  sentences:[
+   {en:"How old are you?",cn:"你几岁了？"},
+   {en:"I'm eight years old.",cn:"我八岁了。"},
+   {en:"It's seven o'clock.",cn:"现在七点。"},
+   {en:"That's ten yuan, please.",cn:"一共十元，谢谢。"},
+   {en:"Let's eat the cake.",cn:"我们来吃蛋糕吧。"}]}
+];
+
+// ===== 工具 =====
+var $ = function(id){return document.getElementById(id);};
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function pick(a,n){return shuffle(a).slice(0,n);}
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+function picHTML(wd,cls){
+  if(wd.color) return '<span class="swatch" style="background:'+wd.color+'"></span>';
+  if(wd.num) return '<span class="numpic">'+wd.num+'</span>';
+  return '<span class="'+(cls||'')+'">'+wd.pic+'</span>';
+}
+var PRAISE=["太棒了！🎉","真厉害！🌟","好聪明！👏","你真行！💖","完全正确！🥳","Super! 💯"];
+var SOFT=["没关系，再来一次！💪","差一点点哦～😊","加油，你可以的！🌈"];
+function rnd(a){return a[Math.floor(Math.random()*a.length)];}
+
+// ===== 发音 =====
+var enVoice=null;
+function loadVoices(){
+  if(!window.speechSynthesis) return;
+  var vs=speechSynthesis.getVoices()||[];
+  var pref=["Samantha","Karen","Google US English","Microsoft Aria","Microsoft Jenny"];
+  for(var p=0;p<pref.length&&!enVoice;p++) for(var i=0;i<vs.length;i++) if(vs[i].name.indexOf(pref[p])>=0){enVoice=vs[i];break;}
+  if(!enVoice) for(var k=0;k<vs.length;k++) if(/^en[-_]US/i.test(vs[k].lang)){enVoice=vs[k];break;}
+  if(!enVoice) for(var m=0;m<vs.length;m++) if(/^en/i.test(vs[m].lang)){enVoice=vs[m];break;}
+}
+if(window.speechSynthesis){loadVoices(); try{speechSynthesis.onvoiceschanged=loadVoices;}catch(e){}}
+function speak(text){
+  try{
+    if(!window.speechSynthesis) return;
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(text);
+    u.lang="en-US"; u.rate=0.8; u.pitch=1.1;
+    if(enVoice) u.voice=enVoice;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+
+// ===== 柔和音效（只在答对时） =====
+var actx=null;
+function chime(){
+  try{
+    actx=actx||new (window.AudioContext||window.webkitAudioContext)();
+    [659,784,1047].forEach(function(f,i){
+      var o=actx.createOscillator(),g=actx.createGain();
+      o.type="sine";o.frequency.value=f;
+      var t=actx.currentTime+i*0.09;
+      g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.12,t+0.02);g.gain.exponentialRampToValueAtTime(0.001,t+0.35);
+      o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+0.4);
+    });
+  }catch(e){}
+}
+
+// ===== 星星 =====
+var stars=0;
+try{stars=parseInt(localStorage.getItem("jf_stars")||"0",10)||0;}catch(e){}
+function addStar(n,el){
+  stars+=n; $("starCount").textContent=stars;
+  try{localStorage.setItem("jf_stars",stars);}catch(e){}
+  var s=document.createElement("div");s.className="star-fly";s.textContent="⭐";
+  var r=(el&&el.getBoundingClientRect)?el.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0};
+  s.style.left=(r.left+r.width/2-20)+"px";s.style.top=(r.top)+"px";
+  document.body.appendChild(s);setTimeout(function(){s.remove();},1000);
+}
+$("starCount").textContent=stars;
+
+// ===== 页面切换 =====
+var curUnit=null, curGame=null;
+function show(id){["unitScreen","gameScreen","playScreen"].forEach(function(s){$(s).classList.toggle("hidden",s!==id);});window.scrollTo(0,0);}
+function renderUnits(){
+  $("unitGrid").innerHTML=UNITS.map(function(u,i){
+    return '<button class="card-btn c'+(i%6)+'" data-unit="'+i+'"><span class="big">'+u.icon+'</span>Unit '+u.id+' '+esc(u.en)+'<small>'+esc(u.cn)+'</small></button>';
+  }).join("");
+}
+$("unitGrid").addEventListener("click",function(e){
+  var b=e.target.closest("[data-unit]");if(!b) return;
+  curUnit=UNITS[+b.getAttribute("data-unit")];
+  $("unitTitle").textContent="Unit "+curUnit.id+" "+curUnit.en+"（"+curUnit.cn+"）";
+  $("wordList").innerHTML=curUnit.words.map(function(w){
+    return '<button class="chip" data-say="'+esc(w.w)+'">'+(w.color?'<span class="swatch" style="width:18px;height:18px;vertical-align:middle;background:'+w.color+'"></span>':(w.num?w.num:w.pic))+' '+esc(w.w)+' · '+esc(w.cn)+'</button>';
+  }).join("");
+  show("gameScreen");
+});
+$("wordList").addEventListener("click",function(e){var b=e.target.closest("[data-say]");if(b) speak(b.getAttribute("data-say"));});
+document.querySelectorAll("[data-game]").forEach(function(b){
+  b.addEventListener("click",function(){startGame(b.getAttribute("data-game"));});
+});
+$("backUnits").onclick=function(){show("unitScreen");};
+$("backGames").onclick=function(){try{speechSynthesis.cancel();}catch(e){} show("gameScreen");};
+
+function startGame(g){
+  curGame=g; show("playScreen");
+  ({listen:gListen,memory:gMemory,spell:gSpell,sentence:gSentence})[g]();
+}
+function finish(score,total,again){
+  var msg = score>=total ? "全部答对，你是英语小明星！" : (score>=total*0.6 ? "做得很好，继续加油！" : "已经很努力啦，再玩一次会更棒！");
+  $("progress").textContent="";
+  $("playArea").innerHTML='<div class="celebrate">🏆</div><h2>完成啦！</h2><p class="cn">得分：'+score+' / '+total+'</p><p class="cn">'+msg+'</p>'+
+   '<button class="btn" id="againBtn">🔁 再玩一次</button><button class="btn blue" id="otherBtn">🎮 换个游戏</button>';
+  chime();
+  $("againBtn").onclick=again; $("otherBtn").onclick=function(){show("gameScreen");};
+}
+
+// ===== 游戏1：听音选图 =====
+function gListen(){
+  var pool=curUnit.words, rounds=pick(pool,Math.min(8,pool.length)), idx=0, score=0;
+  function round(){
+    if(idx>=rounds.length) return finish(score,rounds.length,gListen);
+    var ans=rounds[idx], opts=shuffle([ans].concat(pick(pool.filter(function(w){return w!==ans && picHTML(w)!==picHTML(ans);}),3)));
+    var tried=false, locked=false;
+    $("progress").textContent="第 "+(idx+1)+" / "+rounds.length+" 题";
+    $("playArea").innerHTML='<p class="tip">🎧 点喇叭听单词，再点出对的图片</p><button class="speaker" id="spk">🔊</button>'+
+      '<div class="options">'+opts.map(function(o,i){return '<button class="opt" data-i="'+i+'">'+picHTML(o)+'</button>';}).join("")+'</div><div class="feedback" id="fb"></div>';
+    $("spk").onclick=function(){speak(ans.w);};
+    setTimeout(function(){speak(ans.w);},300);
+    document.querySelectorAll(".opt").forEach(function(b){
+      b.onclick=function(){
+        if(locked) return;
+        var o=opts[+b.getAttribute("data-i")];
+        if(o===ans){
+          locked=true; b.classList.add("right"); b.insertAdjacentHTML("beforeend",'<span class="lbl">'+esc(ans.w)+' · '+esc(ans.cn)+'</span>');
+          if(!tried){score++;addStar(1,b);} chime();
+          $("fb").innerHTML='<span class="good">'+rnd(PRAISE)+'</span>';
+          setTimeout(function(){idx++;round();},1400);
+        }else{
+          tried=true; b.classList.add("wrong","shake");
+          b.insertAdjacentHTML("beforeend",'<span class="lbl">'+esc(o.w)+'</span>');
+          $("fb").innerHTML='<span class="soft">'+rnd(SOFT)+' 再听一遍～</span>';
+          setTimeout(function(){speak(ans.w);},500);
+        }
+      };
+    });
+  }
+  round();
+}
+
+// ===== 游戏2：翻翻乐 =====
+function gMemory(){
+  var n=window.innerWidth<520?6:6;
+  var ws=pick(curUnit.words.filter(function(w,i,a){return a.findIndex(function(x){return x.w===w.w;})===i;}),n);
+  var cards=shuffle([].concat(ws.map(function(w,i){return {k:i,type:"pic",w:w};}),ws.map(function(w,i){return {k:i,type:"word",w:w};})));
+  var open=[], matched=0, moves=0, busy=false;
+  $("progress").textContent="找到 0 / "+n+" 对";
+  $("playArea").innerHTML='<p class="tip">🃏 翻两张牌，把图片和英语单词配成一对</p><div class="memory">'+cards.map(function(c,i){
+    var back = c.type==="pic" ? picHTML(c.w) : '<span class="w">'+esc(c.w.w)+'</span>';
+    return '<button class="mcard" data-i="'+i+'"><div class="inner"><div class="face front">❓</div><div class="face back">'+back+'</div></div></button>';
+  }).join("")+'</div><div class="feedback" id="fb"></div>';
+  var els=document.querySelectorAll(".mcard");
+  els.forEach(function(el){
+    el.onclick=function(){
+      var i=+el.getAttribute("data-i");
+      if(busy||el.classList.contains("flip")||el.classList.contains("done")) return;
+      el.classList.add("flip"); open.push(i);
+      if(cards[i].type==="word") speak(cards[i].w.w);
+      if(open.length===2){
+        moves++; var a=open[0],b=open[1]; open=[];
+        if(cards[a].k===cards[b].k && cards[a].type!==cards[b].type){
+          els[a].classList.add("done");els[b].classList.add("done");matched++;
+          addStar(1,el); chime(); speak(cards[a].w.w);
+          $("fb").innerHTML='<span class="good">'+rnd(PRAISE)+' '+esc(cards[a].w.w)+' = '+esc(cards[a].w.cn)+'</span>';
+          $("progress").textContent="找到 "+matched+" / "+n+" 对";
+          if(matched===n) setTimeout(function(){finish(n,n,gMemory);},1200);
+        }else{
+          busy=true; $("fb").innerHTML='<span class="soft">不是一对哦，记住位置再试试～</span>';
+          setTimeout(function(){els[a].classList.remove("flip");els[b].classList.remove("flip");busy=false;},1100);
+        }
+      }
+    };
+  });
+}
+
+// ===== 游戏3：拼单词 =====
+function gSpell(){
+  var pool=curUnit.words.filter(function(w){return /^[a-z]+$/.test(w.w);});
+  var rounds=pick(pool,Math.min(6,pool.length)), idx=0, score=0;
+  function round(){
+    if(idx>=rounds.length) return finish(score,rounds.length,gSpell);
+    var ans=rounds[idx], letters=ans.w.split(""), extra="abcdefghijklmnopqrstuvwxyz".replace(new RegExp("["+ans.w+"]","g"),"");
+    var nExtra=ans.w.length<=4?2:1, tiles=letters.slice();
+    for(var e=0;e<nExtra;e++) tiles.push(extra[Math.floor(Math.random()*extra.length)]);
+    tiles=shuffle(tiles);
+    var filled=[], mistakes=0;
+    $("progress").textContent="第 "+(idx+1)+" / "+rounds.length+" 个";
+    $("playArea").innerHTML='<div class="pic">'+picHTML(ans,"")+'</div><p class="cn">'+esc(ans.cn)+' <button class="btn blue" id="spk" style="padding:6px 14px;font-size:18px">🔊 听</button></p>'+
+      '<p class="tip">🔤 按顺序点字母块，拼出这个单词（点上面的格子可以撤回）</p>'+
+      '<div class="slots" id="slots">'+letters.map(function(_,i){return '<div class="slot" data-s="'+i+'"></div>';}).join("")+'</div>'+
+      '<div class="tiles">'+tiles.map(function(t,i){return '<button class="tile" data-t="'+i+'">'+t+'</button>';}).join("")+'</div>'+
+      '<div class="feedback" id="fb"></div><button class="btn gray" id="hint">💡 提示</button>';
+    $("spk").onclick=function(){speak(ans.w);};
+    setTimeout(function(){speak(ans.w);},300);
+    var slotEls=document.querySelectorAll(".slot"), tileEls=document.querySelectorAll(".tile"), done=false;
+    function draw(){slotEls.forEach(function(s,i){var f=filled[i];s.textContent=f!=null?tiles[f]:"";s.classList.toggle("filled",f!=null);});
+      tileEls.forEach(function(t,i){t.classList.toggle("used",filled.indexOf(i)>=0);});}
+    function check(){
+      if(filled.length<letters.length) return;
+      var word=filled.map(function(i){return tiles[i];}).join("");
+      if(word===ans.w){
+        done=true; if(mistakes===0){score++;addStar(1,$("slots"));} chime(); speak(ans.w);
+        $("fb").innerHTML='<span class="good">'+rnd(PRAISE)+' '+esc(ans.w)+'</span>';
+        setTimeout(function(){idx++;round();},1500);
+      }else{
+        mistakes++; $("slots").classList.add("shake");
+        $("fb").innerHTML='<span class="soft">'+rnd(SOFT)+' 正确拼法是：<b>'+esc(ans.w)+'</b>，照着再拼一次吧</span>';
+        setTimeout(function(){$("slots").classList.remove("shake");filled=[];draw();},1300);
+      }
+    }
+    tileEls.forEach(function(t,i){t.onclick=function(){if(done||filled.indexOf(i)>=0||filled.length>=letters.length) return;filled.push(i);draw();check();};});
+    slotEls.forEach(function(s,i){s.onclick=function(){if(done) return; if(i<filled.length){filled=filled.slice(0,i);draw();}};});
+    $("hint").onclick=function(){
+      if(done) return; mistakes++;
+      // 保留正确的前缀，再补下一个字母
+      var k=0; while(k<filled.length && tiles[filled[k]]===letters[k]) k++;
+      filled=filled.slice(0,k);
+      if(k<letters.length){for(var i=0;i<tiles.length;i++){if(filled.indexOf(i)<0&&tiles[i]===letters[k]){filled.push(i);break;}}}
+      draw(); $("fb").innerHTML='<span class="soft">提示：下一个字母是 '+letters[k]+'（这题不加星星哦）</span>'; check();
+    };
+  }
+  round();
+}
+
+// ===== 游戏4：句子排排队 =====
+function gSentence(){
+  var rounds=pick(curUnit.sentences,Math.min(5,curUnit.sentences.length)), idx=0, score=0;
+  function round(){
+    if(idx>=rounds.length) return finish(score,rounds.length,gSentence);
+    var s=rounds[idx], parts=s.en.split(" "), tiles=shuffle(parts.map(function(p,i){return {t:p,i:i};}));
+    // 避免打乱后和原句一样
+    if(parts.length>1 && tiles.every(function(x,i){return x.i===i;})) tiles.reverse();
+    var chosen=[], mistakes=0, done=false;
+    $("progress").textContent="第 "+(idx+1)+" / "+rounds.length+" 句";
+    $("playArea").innerHTML='<p class="tip">🧩 把单词按顺序点上去，排成一句话</p><p class="cn" style="font-size:26px">“'+esc(s.cn)+'”</p>'+
+      '<button class="btn blue" id="spk">🔊 听句子</button><div class="slots sentence" id="line"></div>'+
+      '<div class="tiles" id="pool"></div><div class="feedback" id="fb"></div><button class="btn gray" id="reset">↩ 重新排</button>';
+    $("spk").onclick=function(){speak(s.en);};
+    function draw(){
+      $("line").innerHTML=chosen.map(function(c,k){return '<button class="tile word" data-c="'+k+'">'+esc(tiles[c].t)+'</button>';}).join("")||'<span style="color:#aac">点下面的单词放到这里</span>';
+      $("pool").innerHTML=tiles.map(function(x,k){return '<button class="tile word'+(chosen.indexOf(k)>=0?' used':'')+'" data-p="'+k+'">'+esc(x.t)+'</button>';}).join("");
+    }
+    function check(){
+      if(chosen.length<parts.length) return;
+      var built=chosen.map(function(c){return tiles[c].t;}).join(" ");
+      if(built===s.en){
+        done=true; if(mistakes===0){score++;addStar(2,$("line"));} chime(); speak(s.en);
+        $("fb").innerHTML='<span class="good">'+rnd(PRAISE)+'</span>';
+        setTimeout(function(){idx++;round();},1800);
+      }else{
+        mistakes++; $("line").classList.add("shake");
+        $("fb").innerHTML='<span class="soft">'+rnd(SOFT)+'<br>正确的是：<b>'+esc(s.en)+'</b></span>';
+        setTimeout(function(){$("line").classList.remove("shake");chosen=[];draw();},2200);
+      }
+    }
+    $("pool").onclick=function(e){var b=e.target.closest("[data-p]");if(!b||done) return;var k=+b.getAttribute("data-p");if(chosen.indexOf(k)>=0) return;chosen.push(k);speak(tiles[k].t.replace(/[.,!?]/g,""));draw();check();};
+    $("line").onclick=function(e){var b=e.target.closest("[data-c]");if(!b||done) return;chosen.splice(+b.getAttribute("data-c"),1);draw();};
+    $("reset").onclick=function(){if(done) return;chosen=[];draw();};
+    draw();
+  }
+  round();
+}
+
+renderUnits();
+</script>
+</body>
+</html>
